@@ -762,7 +762,7 @@ KEditor.prototype = {
 	text : function(val) {
 		var self = this;
 		if (val === undefined) {
-			return _trim(self.html().replace(/<(?!img|embed).*?>/ig, '').replace(/&nbsp;/ig, ' '));
+			return _trim(self.html().replace(/<(?!img|embed|video).*?>/ig, '').replace(/&nbsp;/ig, ' '));
 		} else {
 			return self.html(_escape(val));
 		}
@@ -785,7 +785,7 @@ KEditor.prototype = {
 			return self.html().length;
 		}
 		if (mode === 'text') {
-			return self.text().replace(/<(?:img|embed).*?>/ig, 'K').replace(/\r\n|\n|\r/g, '').length;
+			return self.text().replace(/<(?:img|embed|video).*?>/ig, 'K').replace(/\r\n|\n|\r/g, '').length;
 		}
 		return 0;
 	},
@@ -1572,6 +1572,13 @@ _plugin('core', function(K) {
 			attrs.width = _undef(attrs.width, 0);
 			attrs.height = _undef(attrs.height, 0);
 			return _mediaImg(self.themesPath + 'common/blank.gif', attrs);
+		})
+		.replace(/<video[^>]*[^>]*>(?:<\/video>)?/ig, function (full) {
+		    var attrs = _getAttrList(full);
+		    attrs.src = _undef(attrs.src, '');
+		    attrs.width = _undef(attrs.width, 0);
+		    attrs.height = _undef(attrs.height, 0);
+		    return _mediaImg(self.themesPath + 'common/blank.gif', attrs);
 		})
 		.replace(/<a[^>]*name="([^"]+)"[^>]*>(?:<\/a>)?/ig, function(full) {
 			var attrs = _getAttrList(full);

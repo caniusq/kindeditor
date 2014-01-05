@@ -54,7 +54,7 @@ var PLUGIN_FILES = [
 
 var pkg = grunt.file.readJSON('package.json');
 
-var lang = grunt.option('lang') || 'en';
+var lang = grunt.option('lang') || 'zh_CN';
 
 grunt.initConfig({
 	pkg : pkg,

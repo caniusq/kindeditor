@@ -334,13 +334,19 @@ function _clearMsWord(html, htmlTags) {
 }
 // 根据URL判断 media type
 function _mediaType(src) {
-	if (/\.(rm|rmvb)(\?|$)/i.test(src)) {
-		return 'audio/x-pn-realaudio-plugin';
-	}
-	if (/\.(swf|flv)(\?|$)/i.test(src)) {
-		return 'application/x-shockwave-flash';
-	}
-	return 'video/x-ms-asf-plugin';
+    if (/\.(rm|rmvb)(\?|$)/i.test(src)) {
+        return 'audio/x-pn-realaudio-plugin';
+    }
+    if (/\.(swf|flv)(\?|$)/i.test(src)) {
+        return 'application/x-shockwave-flash';
+    }
+    if (/\.(mov)(\?|$)/i.test(src)) {
+        return 'video/quicktime';
+    }
+    if (/\.(mp4)(\?|$)/i.test(src)) {
+        return 'video/mp4';
+    }
+    return 'video/x-ms-asf-plugin';
 }
 // 根据 media type取得className
 function _mediaClass(type) {
@@ -358,12 +364,34 @@ function _mediaAttrs(srcTag) {
 }
 
 function _mediaEmbed(attrs) {
-	var html = '<embed ';
-	_each(attrs, function(key, val) {
-		html += key + '="' + val + '" ';
-	});
-	html += '/>';
-	return html;
+    var type = attrs.type ? attrs.type : _mediaType(attrs.src);
+
+    if (type == 'video/quicktime' || type == 'video/mp4') {
+        var html = '<video ';
+        _each(attrs, function (key, val) {
+
+            if (key == 'type') return;
+
+            if (key == 'autostart') {
+                if (val == 'autostart' || val == 'true') html += 'autoplay="autoplay" '; return;
+            }
+            if (key == 'loop') {
+                if (val == 'loop' || val == 'true') html += 'loop="loop" '; return;
+            }
+
+            html += key + '="' + val + '" ';
+        });
+        html += '/>';
+        return html;
+    }
+    else {
+        var html = '<embed ';
+        _each(attrs, function (key, val) {
+            html += key + '="' + val + '" ';
+        });
+        html += '/>';
+        return html;
+    }
 }
 
 function _mediaImg(blankPath, attrs) {
