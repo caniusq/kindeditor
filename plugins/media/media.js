@@ -43,12 +43,17 @@ KindEditor.plugin('media', function(K) {
 				'<label for="keAutostart">' + lang.autostart + '</label>',
 				'<input type="checkbox" id="keAutostart" name="autostart" value="" /> ',
 				'</div>',
+                //loop
+				'<div class="ke-dialog-row">',
+				'<label for="keLoop">' + lang.loop + '</label>',
+				'<input type="checkbox" id="keLoop" name="loop" value="" /> ',
+				'</div>',
 				'</div>'
 			].join('');
 			var dialog = self.createDialog({
 				name : name,
 				width : 450,
-				height : 230,
+				height : 254,
 				title : self.lang(name),
 				body : html,
 				yesBtn : {
@@ -76,9 +81,10 @@ KindEditor.plugin('media', function(K) {
 								src : url,
 								type : K.mediaType(url),
 								width : width,
-								height : height,
+								height: height,
+								controls : 'controls',
 								autostart : autostartBox[0].checked ? 'true' : 'false',
-								loop : 'true'
+								loop: loopBox[0].checked ? 'true' : 'false'
 							});
 						self.insertHtml(html).hideDialog().focus();
 					}
@@ -90,6 +96,7 @@ KindEditor.plugin('media', function(K) {
 			widthBox = K('[name="width"]', div),
 			heightBox = K('[name="height"]', div),
 			autostartBox = K('[name="autostart"]', div);
+			loopBox = K('[name="loop"]', div);
 			urlBox.val('http://');
 
 			if (allowMediaUpload) {
@@ -155,7 +162,8 @@ KindEditor.plugin('media', function(K) {
 				urlBox.val(attrs.src);
 				widthBox.val(K.removeUnit(img.css('width')) || attrs.width || 0);
 				heightBox.val(K.removeUnit(img.css('height')) || attrs.height || 0);
-				autostartBox[0].checked = (attrs.autostart === 'true');
+				autostartBox[0].checked = (attrs.autostart === 'true' || attrs.autoplay === 'autoplay');
+				loopBox[0].checked = (attrs.loop === 'true' || attrs.loop === 'loop');
 			}
 			urlBox[0].focus();
 			urlBox[0].select();
