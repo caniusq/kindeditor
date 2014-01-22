@@ -367,7 +367,7 @@ function _mediaEmbed(attrs) {
     var type = attrs.type ? attrs.type : _mediaType(attrs.src);
 
     if (type == 'video/quicktime' || type == 'video/mp4') {
-        var html = '<video ';
+        var html = '<video controls="controls" ';
         _each(attrs, function (key, val) {
 
             if (key == 'type') return;

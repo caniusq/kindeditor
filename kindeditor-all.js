@@ -5,7 +5,7 @@
 * @author Roddy <luolonghao@gmail.com>
 * @website http://www.kindsoft.net/
 * @licence http://www.kindsoft.net/license.php
-* @version 4.1.10 (2014-01-05)
+* @version 4.1.10 (2014-01-22)
 *******************************************************************************/
 (function (window, undefined) {
 	if (window.KindEditor) {
@@ -19,7 +19,7 @@ if (!window.console) {
 if (!console.log) {
 	console.log = function () {};
 }
-var _VERSION = '4.1.10 (2014-01-05)',
+var _VERSION = '4.1.10 (2014-01-22)',
 	_ua = navigator.userAgent.toLowerCase(),
 	_IE = _ua.indexOf('msie') > -1 && _ua.indexOf('opera') == -1,
 	_NEWIE = _ua.indexOf('msie') == -1 && _ua.indexOf('trident') > -1,
@@ -944,7 +944,7 @@ function _mediaAttrs(srcTag) {
 function _mediaEmbed(attrs) {
     var type = attrs.type ? attrs.type : _mediaType(attrs.src);
     if (type == 'video/quicktime' || type == 'video/mp4') {
-        var html = '<video ';
+        var html = '<video controls="controls" ';
         _each(attrs, function (key, val) {
             if (key == 'type') return;
             if (key == 'autostart') {
